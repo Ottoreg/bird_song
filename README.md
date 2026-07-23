@@ -50,6 +50,17 @@ Ensuite, dans le navigateur :
 Contrôles de la caméra : **glisser** pour tourner, **molette** pour zoomer,
 **🎥 Vue par défaut** pour recentrer.
 
+## Démo en ligne (GitHub Pages)
+
+Le dépôt inclut un workflow (`.github/workflows/deploy-pages.yml`) qui publie
+le site sur GitHub Pages. Pour l'activer, une seule action manuelle :
+
+**Settings → Pages → Build and deployment → Source : `GitHub Actions`.**
+
+Le workflow se déclenche ensuite à chaque push sur `main` (ou peut être lancé
+à la main via *Actions → Deploy to GitHub Pages → Run workflow*). Le site sera
+disponible à l'adresse `https://ottoreg.github.io/bird_song/`.
+
 ## Fonctionnement technique
 
 - **Web Audio API** (`AnalyserNode`, FFT 4096 points) pour extraire le spectre
