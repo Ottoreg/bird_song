@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bird Song 3D — Visualiseur de chants d'oiseaux</title>
   <link rel="stylesheet" href="src/style.css" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#05070f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Bird Song 3D" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png" />
   <!-- Three.js hébergé localement (aucune dépendance réseau) -->
   <script type="importmap">
   {
@@ -72,5 +82,16 @@
   </div>
 
   <script type="module" src="src/main.js"></script>
+
+  <!-- Enregistrement du service worker (PWA / hors-ligne) -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch((err) =>
+          console.warn("Service worker non enregistré :", err)
+        );
+      });
+    }
+  </script>
 </body>
 </html>
