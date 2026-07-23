@@ -52,14 +52,15 @@ Contrôles de la caméra : **glisser** pour tourner, **molette** pour zoomer,
 
 ## Démo en ligne (GitHub Pages)
 
-Le dépôt inclut un workflow (`.github/workflows/deploy-pages.yml`) qui **active
-et publie** automatiquement le site sur GitHub Pages (via `configure-pages`
-avec `enablement: true`) — aucune action manuelle dans les réglages n'est
-requise.
+Le dépôt inclut un workflow (`.github/workflows/deploy-pages.yml`) qui publie
+le site sur GitHub Pages. Une seule action manuelle est nécessaire pour
+autoriser Pages (le token du workflow ne peut pas l'activer lui-même) :
 
-Il se déclenche à chaque push sur `main` (ou sur la branche de feature), et
-peut aussi être lancé à la main via *Actions → Deploy to GitHub Pages → Run
-workflow*. Le site est alors disponible à l'adresse
+**Settings → Pages → Build and deployment → Source : `GitHub Actions`.**
+
+Le workflow se déclenche ensuite à chaque push sur `main` (ou sur la branche de
+feature), et peut aussi être lancé à la main via *Actions → Deploy to GitHub
+Pages → Run workflow*. Le site est alors disponible à l'adresse
 `https://ottoreg.github.io/bird_song/`.
 
 ## Fonctionnement technique
