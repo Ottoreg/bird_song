@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bird Song 3D — Visualiseur de chants d'oiseaux</title>
+  <link rel="stylesheet" href="src/style.css" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#05070f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Bird Song 3D" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png" />
+  <!-- Three.js hébergé localement (aucune dépendance réseau) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three/three.module.js",
+      "three/addons/": "./vendor/three/addons/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+
+  <!-- Panneau de contrôle -->
+  <header id="topbar">
+    <div class="brand">
+      <span class="logo">🐦</span>
+      <div>
+        <h1>Bird Song 3D</h1>
+        <p>Visualiseur de chants d'oiseaux en spectrogramme 3D</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <label class="btn file-btn">
+        <input type="file" id="fileInput" accept="audio/*" />
+        📂 Charger un audio
+      </label>
+      <button class="btn" id="demoBtn">✨ Démo (chant synthétique)</button>
+      <button class="btn primary" id="playBtn" disabled>▶︎ Lire</button>
+      <button class="btn" id="resetViewBtn">🎥 Vue par défaut</button>
+    </div>
+  </header>
+
+  <!-- Lecteur -->
+  <div id="player" class="hidden">
+    <input type="range" id="seek" min="0" max="100" value="0" step="0.1" />
+    <span id="time" class="time">0:00 / 0:00</span>
+  </div>
+
+  <!-- Informations en direct -->
+  <aside id="hud" class="hidden">
+    <div class="hud-row"><span class="hud-label">Note dominante</span><span id="hudNote" class="hud-val">—</span></div>
+    <div class="hud-row"><span class="hud-label">Fréquence</span><span id="hudFreq" class="hud-val">—</span></div>
+    <div class="hud-row"><span class="hud-label">Intensité</span><span id="hudLevel" class="hud-val">—</span></div>
+  </aside>
+
+  <!-- Légende des axes -->
+  <div id="legend" class="hidden">
+    <div><span class="axis x"></span> X — Fréquence (grave → aigu)</div>
+    <div><span class="axis z"></span> Z — Temps (récent → ancien)</div>
+    <div><span class="axis y"></span> Y / couleur — Intensité</div>
+  </div>
+
+  <!-- Écran d'accueil -->
+  <div id="overlay">
+    <div class="overlay-card">
+      <div class="overlay-logo">🐦🎶</div>
+      <h2>Visualisez un chant d'oiseau en 3D</h2>
+      <p>Chargez un fichier audio (ou lancez la démo). L'application transforme le chant
+         en un spectrogramme 3D animé&nbsp;: chaque note est représentée par sa fréquence,
+         son intensité et sa position dans le temps.</p>
+      <p class="hint">Faites glisser pour tourner la caméra · molette pour zoomer</p>
+    </div>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+
+  <!-- Enregistrement du service worker (PWA / hors-ligne) -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch((err) =>
+          console.warn("Service worker non enregistré :", err)
+        );
+      });
+    }
+  </script>
+</body>
+</html>

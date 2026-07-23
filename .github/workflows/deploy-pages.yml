@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+# Publie le site statique (index.html + src/ + vendor/ + assets/) sur GitHub Pages.
+# Prérequis : Settings > Pages > "Build and deployment" > Source = "GitHub Actions".
+
+on:
+  push:
+    branches:
+      - main
+      - claude/bird-song-3d-visualizer-hmz61h
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
