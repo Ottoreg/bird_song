@@ -25,6 +25,35 @@ export class AudioEngine {
       this.analyser.maxDecibels = -20;
       this.freqData = new Uint8Array(this.analyser.frequencyBinCount);
       this.analyser.connect(this.ctx.destination);
+      this._setPlaybackSession();
+    }
+  }
+
+  // iOS : joue le son même quand l'interrupteur silencieux est activé.
+  _setPlaybackSession() {
+    try {
+      if (navigator.audioSession) navigator.audioSession.type = "playback";
+    } catch (e) { /* API non disponible : sans effet */ }
+  }
+
+  /**
+   * À appeler DANS un geste utilisateur (clic/tap) pour déverrouiller l'audio
+   * sur iOS/Safari. Le contexte doit être créé et repris de façon synchrone
+   * pendant le geste, sinon le son reste muet.
+   */
+  unlock() {
+    this._ensureContext();
+    this._setPlaybackSession();
+    if (this.ctx.state === "suspended") this.ctx.resume();
+    if (!this._unlocked) {
+      // Un court buffer silencieux finalise le déverrouillage iOS.
+      try {
+        const src = this.ctx.createBufferSource();
+        src.buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate);
+        src.connect(this.ctx.destination);
+        src.start(0);
+        this._unlocked = true;
+      } catch (e) { /* ignore */ }
     }
   }
 

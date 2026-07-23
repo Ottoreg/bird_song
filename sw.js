@@ -2,7 +2,7 @@
 // hors-ligne et l'installation en PWA. Les chemins sont relatifs au scope
 // (racine du site), donc valables aussi bien en local que sous /bird_song/.
 
-const CACHE = "bird-song-3d-v1";
+const CACHE = "bird-song-3d-v2";
 
 const ASSETS = [
   "./",

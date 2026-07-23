@@ -210,6 +210,7 @@ async function afterLoad() {
 }
 
 fileInput.addEventListener("change", async (e) => {
+  audio.unlock();                 // déverrouille l'audio iOS dans le geste
   const file = e.target.files[0];
   if (!file) return;
   try {
@@ -222,6 +223,7 @@ fileInput.addEventListener("change", async (e) => {
 });
 
 demoBtn.addEventListener("click", async () => {
+  audio.unlock();                 // déverrouille l'audio iOS dans le geste
   audio.buildDemo();
   await afterLoad();
   await audio.play();
@@ -229,6 +231,7 @@ demoBtn.addEventListener("click", async () => {
 });
 
 playBtn.addEventListener("click", async () => {
+  audio.unlock();                 // déverrouille l'audio iOS dans le geste
   if (audio.playing) {
     audio.pause();
     setPlaying(false);
